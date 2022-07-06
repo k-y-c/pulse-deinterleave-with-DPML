@@ -1,13 +1,17 @@
 #include<bits/stdc++.h>
-#define GAUSSIAN 1
+#define GAUSSIAN1 1
+#define GAUSSIAN2 2
+
 #define _USE_MATH_DEFINES  //pi
 using namespace std;
 
 const int K = 2; // 辐射源数目
 const double T_K = 100000; //超时时间（单位：ns）
 vector<double> toa; // toa数据
-const string DATA_PATH = "./";
+vector<int> label; // 数据标签
+const string DATA_PATH = "data/";
 const string DATA_FILE_NAME = "toa.txt";
+const string LABEL_FILE_NAME = "label.txt";
 
 class Path{
     public:
@@ -37,7 +41,8 @@ class Path{
 
 vector<Path> paths;//所有路径
 
-vector<double> param_gaussian = {45000,100};  //高斯分布参数
+vector<double> param_gaussian1 = {45000,100};  //高斯分布参数
+vector<double> param_gaussian2 = {60000,100};  //高斯分布参数
 
 double gaussian_distribution(double mu,double sigma,double value)
 {
@@ -49,10 +54,12 @@ double likelihood(int type,double value){
     double res = 0;
     switch (type)
     {
-    case GAUSSIAN:
-        return log(gaussian_distribution(param_gaussian[0],param_gaussian[1],value));
+    case GAUSSIAN1:
+        return log(gaussian_distribution(param_gaussian1[0],param_gaussian1[1],value));
         break;
-    
+    case GAUSSIAN2:
+        return log(gaussian_distribution(param_gaussian2[0],param_gaussian2[1],value));
+        break;
     default:
         break;
     }
@@ -65,7 +72,13 @@ void read_data(){
     string s;
     while(fs >> s){
         double val = stod(s);
-        toa.push_back(val*1e9);
+        toa.push_back(val);
+    }
+    fs.close();
+    fs.open(DATA_PATH+LABEL_FILE_NAME);
+    while(fs >> s){
+        int val = stoi(s);
+        label.push_back(val);
     }
 }
 
@@ -99,10 +112,10 @@ int main(){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
-                        __ll = likelihood(GAUSSIAN,r-l);
+                        __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
                     }
                     else{
-                        __ll += likelihood(GAUSSIAN,r-l);
+                        __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
                     }
                 }
 
@@ -114,7 +127,7 @@ int main(){
                 // 2.1 更新最后时间,略掉超时路径
                 double t = -1;
                 for(int j = 0;j<K;++j){
-                    __rtime[j] = j==k?0:__rtime[j]+toa[i]-toa[i-1];
+                    __rtime[j] = j==k?0:(__rtime[j]+toa[i]-toa[i-1]);
                     t = max(t,__rtime[j]);
                 }
                 if(t>T_K){
@@ -135,7 +148,7 @@ int main(){
                     cout << "err";
                 }
                 else if(group[dist].get_likelihood()<ll){
-                    group[dist].get_likelihood() = ll;
+                    group[dist] = P;
                 }
             }
             else{
@@ -159,5 +172,13 @@ int main(){
             results = P;
         }
     }
+    int cnt_wrong = 0;
+    auto path = results.get_path();
+    for(int i = 0;i<path.size();++i){
+        if(path[i]!=label[i]){
+            cnt_wrong += 1;
+        }
+    }
+    cout << cnt_wrong;
     return 0;
 }
