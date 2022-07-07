@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#include "nanolog.hpp"
+
 #define GAUSSIAN1 1
 #define GAUSSIAN2 2
 
@@ -15,15 +17,13 @@ const string LABEL_FILE_NAME = "label.txt";
 
 class Path{
     public:
-        // K:辐射源个数，label:初始脉冲标签，ll：似然值
+        // K:辐射源个数，label:初始脉冲标签，ll：似然值(初始值为1)
         Path(int K,int label,double ll = 1):m_likelihood(ll),
                     m_last_pulse_dist(K,-1),
                     m_path(1,label),
                     m_time(K,0){
                         m_last_pulse_dist[label] = 1;
                     }
-        
-        //
         Path(vector<int>&last_pulse_dist,vector<int>&path,vector<double>&time,double ll):
         m_last_pulse_dist(last_pulse_dist),m_path(path),m_time(time),m_likelihood(ll)
         {};
@@ -41,8 +41,8 @@ class Path{
 
 vector<Path> paths;//所有路径
 
-vector<double> param_gaussian1 = {45000,100};  //高斯分布参数
-vector<double> param_gaussian2 = {60000,100};  //高斯分布参数
+vector<double> param_gaussian1 = {45000,100};  //辐射源1的高斯分布参数
+vector<double> param_gaussian2 = {60000,100};  //辐射源2的高斯分布参数
 
 double gaussian_distribution(double mu,double sigma,double value)
 {
@@ -66,6 +66,7 @@ double likelihood(int type,double value){
     return 0;
 }
 
+//读取toa、label数据
 void read_data(){
     fstream fs;
     fs.open(DATA_PATH+DATA_FILE_NAME);
@@ -82,6 +83,7 @@ void read_data(){
     }
 }
 
+//初始化路径
 void init_paths(){
     for(int i = 0;i<K;++i){
         paths.emplace_back(forward<Path>(Path(K,i,1.0)));
@@ -89,7 +91,35 @@ void init_paths(){
     return;
 }
 
+double true_path_ll(){
+    vector<int> idx;
+    for(int i = 0;i<toa.size();++i){
+        if(label[i]==0){
+            idx.push_back(i);
+        }
+    }
+    double ll = 0;
+    for(int i = 0;i<idx.size()-1;++i){
+        int l = toa[idx[i]];
+        int r = toa[idx[i+1]];
+        ll += likelihood(GAUSSIAN1,r-l);
+    }
+    idx.clear();
+    for(int i = 0;i<toa.size();++i){
+        if(label[i]==1){
+            idx.push_back(i);
+        }
+    }
+    for(int i = 0;i<idx.size()-1;++i){
+        int l = toa[idx[i]];
+        int r = toa[idx[i+1]];
+        ll += likelihood(GAUSSIAN2,r-l);
+    }
+    return ll;
+}
+
 int main(){
+    nanolog::initialize(nanolog::GuaranteedLogger(), "/home/cky/pulse-deinterleave-with-DPML/log/", "nanolog", 1);
     read_data();
     init_paths();
 
@@ -145,7 +175,7 @@ int main(){
             auto ll = P.get_likelihood(); // 累计似然函数
             if(group.count(dist)){
                 if(group[dist].get_likelihood()>0){
-                    cout << "err";
+                    LOG_CRIT << "err";
                 }
                 else if(group[dist].get_likelihood()<ll){
                     group[dist] = P;
@@ -177,8 +207,12 @@ int main(){
     for(int i = 0;i<path.size();++i){
         if(path[i]!=label[i]){
             cnt_wrong += 1;
+            LOG_INFO << "wrong pulse idx: " << i << "; True: " << label[i] << "; Recognized: " << path[i];
         }
     }
-    cout << cnt_wrong;
+    LOG_INFO << "Total pulses: " << path.size();
+    LOG_INFO << "Wrong deinterleaved pulses: "<< cnt_wrong;
+    LOG_INFO << "Likelihood: " << results.get_likelihood();
+    LOG_INFO << "True path Likelihood: " << true_path_ll();
     return 0;
 }
