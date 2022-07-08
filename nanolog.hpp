@@ -569,7 +569,7 @@ namespace nanolog
 			log_file_name.append(".");
 			log_file_name.append(std::to_string(++m_file_number));
 			log_file_name.append(".txt");
-			m_os->open(log_file_name, std::ofstream::out | std::ofstream::trunc);
+			m_os->open(log_file_name, std::ofstream::out | std::ofstream::app);
 		}
 
 	private:
