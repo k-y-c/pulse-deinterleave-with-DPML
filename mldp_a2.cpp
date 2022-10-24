@@ -8,10 +8,10 @@
 using namespace std;
 
 const int K = 2; // 辐射源数目
-const double T_K = 100000; //超时时间（单位：ns）
+const double T_K = 1000000; //超时时间（单位：ns）
 vector<double> toa; // toa数据
 vector<int> label; // 数据标签
-const string DATA_PATH = "data/";
+const string DATA_PATH = "data/miss_0.6/";
 const string DATA_FILE_NAME = "toa.txt";
 const string LABEL_FILE_NAME = "label.txt";
 
@@ -81,6 +81,7 @@ void read_data(){
         int val = stoi(s);
         label.push_back(val);
     }
+    //剔除漏脉冲数据
 }
 
 //初始化路径
@@ -91,6 +92,7 @@ void init_paths(){
     return;
 }
 
+//计算真实路径的似然值
 double true_path_ll(){
     vector<int> idx;
     for(int i = 0;i<toa.size();++i){
@@ -142,10 +144,12 @@ int main(){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
-                        __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
                     }
                     else{
-                        __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        __ll += max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
                     }
                 }
 
