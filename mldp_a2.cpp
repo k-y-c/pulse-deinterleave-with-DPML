@@ -8,10 +8,11 @@
 using namespace std;
 
 const int K = 2; // 辐射源数目
-const double T_K = 1000000; //超时时间（单位：ns）
+const double T_K = 100000; //超时时间（单位：ns）
 vector<double> toa; // toa数据
 vector<int> label; // 数据标签
-const string DATA_PATH = "data/miss_0.6/";
+const double beta_ = -100; // 似然因子
+const string DATA_PATH = "data/miss_0/";
 const string DATA_FILE_NAME = "toa.txt";
 const string LABEL_FILE_NAME = "label.txt";
 
@@ -19,9 +20,9 @@ class Path{
     public:
         // K:辐射源个数，label:初始脉冲标签，ll：似然值(初始值为1)
         Path(int K,int label,double ll = 1):m_likelihood(ll),
-                    m_last_pulse_dist(K,-1),
+                    m_last_pulse_dist(K+1,-1),
                     m_path(1,label),
-                    m_time(K,0){
+                    m_time(K+1,0){
                         m_last_pulse_dist[label] = 1;
                     }
         Path(vector<int>&last_pulse_dist,vector<int>&path,vector<double>&time,double ll):
@@ -87,8 +88,9 @@ void read_data(){
 //初始化路径
 void init_paths(){
     for(int i = 0;i<K;++i){
-        paths.emplace_back(forward<Path>(Path(K,i,1.0)));
+        paths.emplace_back(forward<Path>(Path(K,i,0)));
     }
+    paths.emplace_back(forward<Path>(Path(K,K,beta_)));
     return;
 }
 
@@ -133,19 +135,23 @@ int main(){
             auto& rtime = P.get_time(); //分配时长
             auto& ll = P.get_likelihood(); // 累计似然函数
             
-            for(int k = 0;k<K;++k){
+            for(int k = 0;k<K+1;++k){
                 auto __dist = dist;
                 auto __path = path;
                 auto __rtime = rtime;
                 auto __ll = ll;
                 __path.push_back(k); // 更新路径
                 // 1.如果该路径曾经分配过脉冲给源k，即可以计算似然函数
-                if(__dist[k]!=-1){
+                // 计算杂散脉冲的似然值
+                if(k == K){
+                    __ll += beta_;
+                }
+                else if(__dist[k]!=-1){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
                         // __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
-                        __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
+                        __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
                     }
                     else{
                         // __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
@@ -154,7 +160,7 @@ int main(){
                 }
 
                 // 2.更新最后脉冲数
-                for(int j = 0;j<K;++j){
+                for(int j = 0;j<K+1;++j){
                     __dist[j] = j==k?1:__dist[j]==-1?-1:__dist[j]+1;
                 }
 
@@ -211,7 +217,7 @@ int main(){
     for(int i = 0;i<path.size();++i){
         if(path[i]!=label[i]){
             cnt_wrong += 1;
-            LOG_INFO << "wrong pulse idx: " << i << "; True: " << label[i] << "; Recognized: " << path[i];
+            // LOG_INFO << "wrong pulse idx: " << i << "; True: " << label[i] << "; Recognized: " << path[i];
         }
     }
     LOG_INFO << "Total pulses: " << path.size();

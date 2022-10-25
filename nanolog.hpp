@@ -137,8 +137,7 @@ namespace nanolog
 			format_timestamp(os, timestamp);
 
 			os << '[' << to_string(loglevel) << ']'
-				<< '[' << threadid << ']'
-				<< '[' << file << ':' << function << ':' << line << "] ";
+				<< '[' << function << ':' << line << "] ";
 
 			stringify(os, b, end);
 
