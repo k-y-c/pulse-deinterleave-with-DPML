@@ -1,0 +1,157 @@
+## Total pulses : 1000
+### miss rate 0
+#### original method    
+    Wrong deinterleaved pulses: 2
+    Likelihood: -5996.22
+#### improved method    
+    Wrong deinterleaved pulses: 2
+    Likelihood: -5996.22
+
+### miss rate 0.2
+#### original method    
+    Wrong deinterleaved pulses: 9
+    Likelihood: -7116.97
+
+#### improved method    
+    Wrong deinterleaved pulses: 5
+    Likelihood: -6165.99
+
+### miss rate 0.4
+#### original method    
+    Wrong deinterleaved pulses: 41
+    Likelihood: -8090.12
+
+#### improved method    
+    Wrong deinterleaved pulses: 3
+    Likelihood: -6705.6
+
+### miss rate 0.6
+#### original method    
+    Wrong deinterleaved pulses: 147
+    Likelihood: -9252.05
+
+#### improved method    
+    Wrong deinterleaved pulses: 44
+    Likelihood: -7890.67
+
+
+
+[2022-10-25 09.51.09.1666662669961][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.51.09.1666662669961][INFO][main:223] Wrong deinterleaved pulses: 945
+[2022-10-25 09.51.09.1666662669961][INFO][main:224] Likelihood: -1364.05
+[2022-10-25 09.51.09.1666662669961][INFO][main:225] True path Likelihood: -9292.3
+[2022-10-25 09.53.14.1666662794251][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.53.14.1666662794251][INFO][main:223] Wrong deinterleaved pulses: 945
+[2022-10-25 09.53.14.1666662794251][INFO][main:224] Likelihood: -1364.05
+[2022-10-25 09.53.14.1666662794251][INFO][main:225] True path Likelihood: -9292.3
+[2022-10-25 09.54.42.1666662882714][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.54.42.1666662882715][INFO][main:223] Wrong deinterleaved pulses: 878
+[2022-10-25 09.54.42.1666662882715][INFO][main:224] Likelihood: -5738.64
+[2022-10-25 09.54.42.1666662882715][INFO][main:225] True path Likelihood: -9292.3
+[2022-10-25 09.55.03.1666662903389][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.55.03.1666662903389][INFO][main:223] Wrong deinterleaved pulses: 146
+[2022-10-25 09.55.03.1666662903389][INFO][main:224] Likelihood: -7696.72
+[2022-10-25 09.55.03.1666662903389][INFO][main:225] True path Likelihood: -9292.3
+[2022-10-25 09.55.25.1666662925846][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.55.25.1666662925846][INFO][main:223] Wrong deinterleaved pulses: 45
+[2022-10-25 09.55.25.1666662925846][INFO][main:224] Likelihood: -7884.73
+[2022-10-25 09.55.25.1666662925846][INFO][main:225] True path Likelihood: -9292.3
+[2022-10-25 09.56.51.1666663011195][INFO][main:222] Total pulses: 1000
+[2022-10-25 09.56.51.1666663011196][INFO][main:223] Wrong deinterleaved pulses: 3
+[2022-10-25 09.56.51.1666663011196][INFO][main:224] Likelihood: -5990.54
+[2022-10-25 09.56.51.1666663011196][INFO][main:225] True path Likelihood: -5996.39
+[2022-10-25 10.25.21.1666664721218][INFO][main:223] Total pulses: 1000
+[2022-10-25 10.25.21.1666664721218][INFO][main:224] Wrong deinterleaved pulses: 216
+[2022-10-25 10.25.21.1666664721218][INFO][main:225] Likelihood: -26053.7
+[2022-10-25 10.25.21.1666664721218][INFO][main:226] True path Likelihood: -5996.39
+[2022-10-25 10.27.50.1666664870755][INFO][main:223] Total pulses: 1000
+[2022-10-25 10.27.50.1666664870756][INFO][main:224] Wrong deinterleaved pulses: 2
+[2022-10-25 10.27.50.1666664870756][INFO][main:225] Likelihood: -5996.22
+[2022-10-25 10.27.50.1666664870756][INFO][main:226] True path Likelihood: -5996.39
+[2022-10-25 15.51.56.1666684316205][INFO][main:223] Total pulses: 1000
+[2022-10-25 15.51.56.1666684316205][INFO][main:224] Wrong deinterleaved pulses: 216
+[2022-10-25 15.51.56.1666684316205][INFO][main:225] Likelihood: -26053.7
+[2022-10-25 15.51.56.1666684316205][INFO][main:226] True path Likelihood: -5996.39
+[2022-10-25 15.53.32.1666684412341][INFO][main:223] Total pulses: 1000
+[2022-10-25 15.53.32.1666684412341][INFO][main:224] Wrong deinterleaved pulses: 2
+[2022-10-25 15.53.32.1666684412341][INFO][main:225] Likelihood: -5996.22
+[2022-10-25 15.53.32.1666684412341][INFO][main:226] True path Likelihood: -5996.39
+
+[2022-10-25 16.44.52.1666687492818][INFO][main:223] Total pulses: 1000
+[2022-10-25 16.44.52.1666687492820][INFO][main:224] Wrong deinterleaved pulses: 166
+[2022-10-25 16.44.52.1666687492820][INFO][main:225] Likelihood: -7554.01
+[2022-10-25 16.44.52.1666687492820][INFO][main:226] True path Likelihood: -5012.26
+
+[2022-10-25 16.45.35.1666687535381][INFO][main:225] Total pulses: 1000
+[2022-10-25 16.45.35.1666687535382][INFO][main:226] Wrong deinterleaved pulses: 166
+[2022-10-25 16.45.35.1666687535382][INFO][main:227] Likelihood: -7554.01
+[2022-10-25 16.45.35.1666687535382][INFO][main:228] True path Likelihood: -5012.26
+
+[2022-10-25 16.53.46.1666688026173][INFO][main:233] Total pulses: 1000
+[2022-10-25 16.53.46.1666688026173][INFO][main:234] Wrong deinterleaved pulses: 169
+[2022-10-25 16.53.46.1666688026174][INFO][main:235] Likelihood: -7626.59
+[2022-10-25 16.53.46.1666688026174][INFO][main:236] True path Likelihood: -5012.26
+[2022-10-25 16.54.26.1666688066943][INFO][main:233] Total pulses: 1000
+[2022-10-25 16.54.26.1666688066944][INFO][main:234] Wrong deinterleaved pulses: 169
+[2022-10-25 16.54.26.1666688066944][INFO][main:235] Likelihood: -7626.59
+[2022-10-25 16.54.26.1666688066944][INFO][main:236] True path Likelihood: -5012.26
+[2022-10-25 16.54.57.1666688097918][INFO][main:233] Total pulses: 1000
+[2022-10-25 16.54.57.1666688097919][INFO][main:234] Wrong deinterleaved pulses: 169
+[2022-10-25 16.54.57.1666688097919][INFO][main:235] Likelihood: -7626.59
+[2022-10-25 16.54.57.1666688097919][INFO][main:236] True path Likelihood: -5012.26
+[2022-10-25 16.55.37.1666688137795][INFO][main:233] Total pulses: 1000
+[2022-10-25 16.55.37.1666688137795][INFO][main:234] Wrong deinterleaved pulses: 368
+[2022-10-25 16.55.37.1666688137795][INFO][main:235] Likelihood: -2800.85
+[2022-10-25 16.55.37.1666688137795][INFO][main:236] True path Likelihood: -5012.26
+[2022-10-25 17.28.25.1666690105352][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.28.25.1666690105352][INFO][main:241] Wrong deinterleaved pulses: 369
+[2022-10-25 17.28.25.1666690105352][INFO][main:242] Likelihood: -2779.12
+[2022-10-25 17.28.25.1666690105352][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.29.07.1666690147194][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.29.07.1666690147195][INFO][main:241] Wrong deinterleaved pulses: 166
+[2022-10-25 17.29.07.1666690147195][INFO][main:242] Likelihood: -7554.01
+[2022-10-25 17.29.07.1666690147195][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.29.42.1666690182192][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.29.42.1666690182192][INFO][main:241] Wrong deinterleaved pulses: 166
+[2022-10-25 17.29.42.1666690182192][INFO][main:242] Likelihood: -7554.01
+[2022-10-25 17.29.42.1666690182193][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.30.31.1666690231187][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.30.31.1666690231187][INFO][main:241] Wrong deinterleaved pulses: 166
+[2022-10-25 17.30.31.1666690231187][INFO][main:242] Likelihood: -7554.01
+[2022-10-25 17.30.31.1666690231187][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.30.59.1666690259163][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.30.59.1666690259163][INFO][main:241] Wrong deinterleaved pulses: 5
+[2022-10-25 17.30.59.1666690259163][INFO][main:242] Likelihood: -7059.5
+[2022-10-25 17.30.59.1666690259163][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.31.29.1666690289280][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.31.29.1666690289281][INFO][main:241] Wrong deinterleaved pulses: 6
+[2022-10-25 17.31.29.1666690289281][INFO][main:242] Likelihood: -6652.03
+[2022-10-25 17.31.29.1666690289281][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.43.15.1666690995881][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.43.15.1666690995881][INFO][main:241] Wrong deinterleaved pulses: 363
+[2022-10-25 17.43.15.1666690995881][INFO][main:242] Likelihood: -4334.15
+[2022-10-25 17.43.15.1666690995881][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.43.41.1666691021955][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.43.41.1666691021955][INFO][main:241] Wrong deinterleaved pulses: 199
+[2022-10-25 17.43.41.1666691021955][INFO][main:242] Likelihood: -5829.2
+[2022-10-25 17.43.41.1666691021955][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.45.17.1666691117816][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.45.17.1666691117816][INFO][main:241] Wrong deinterleaved pulses: 28
+[2022-10-25 17.45.17.1666691117816][INFO][main:242] Likelihood: -6312.01
+[2022-10-25 17.45.17.1666691117816][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.46.03.1666691163071][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.46.03.1666691163071][INFO][main:241] Wrong deinterleaved pulses: 6
+[2022-10-25 17.46.03.1666691163071][INFO][main:242] Likelihood: -6652.03
+[2022-10-25 17.46.03.1666691163071][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.46.27.1666691187873][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.46.27.1666691187873][INFO][main:241] Wrong deinterleaved pulses: 6
+[2022-10-25 17.46.27.1666691187873][INFO][main:242] Likelihood: -6816.03
+[2022-10-25 17.46.27.1666691187873][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.51.12.1666691472229][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.51.12.1666691472229][INFO][main:241] Wrong deinterleaved pulses: 6
+[2022-10-25 17.51.12.1666691472229][INFO][main:242] Likelihood: -5996.03
+[2022-10-25 17.51.12.1666691472229][INFO][main:243] True path Likelihood: -5012.26
+[2022-10-25 17.51.45.1666691505740][INFO][main:240] Total pulses: 1000
+[2022-10-25 17.51.45.1666691505740][INFO][main:241] Wrong deinterleaved pulses: 6
+[2022-10-25 17.51.45.1666691505740][INFO][main:242] Likelihood: -6652.03
+[2022-10-25 17.51.45.1666691505740][INFO][main:243] True path Likelihood: -5012.26

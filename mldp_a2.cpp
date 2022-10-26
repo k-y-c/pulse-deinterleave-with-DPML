@@ -11,8 +11,9 @@ const int K = 2; // 辐射源数目
 const double T_K = 100000; //超时时间（单位：ns）
 vector<double> toa; // toa数据
 vector<int> label; // 数据标签
-const double beta_ = -100; // 似然因子
-const string DATA_PATH = "data/miss_0/";
+const double beta_ = -10; // 似然因子
+const int buffer_size = 500; //路径buffer大小
+const string DATA_PATH = "data/spurious_0.2/";
 const string DATA_FILE_NAME = "toa.txt";
 const string LABEL_FILE_NAME = "label.txt";
 
@@ -135,7 +136,7 @@ int main(){
             auto& rtime = P.get_time(); //分配时长
             auto& ll = P.get_likelihood(); // 累计似然函数
             
-            for(int k = 0;k<K+1;++k){
+            for(int k = 0;k<=K;++k){
                 auto __dist = dist;
                 auto __path = path;
                 auto __rtime = rtime;
@@ -150,12 +151,12 @@ int main(){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
-                        // __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
-                        __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
+                        __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
                     }
                     else{
-                        // __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
-                        __ll += max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
+                        __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll += max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
                     }
                 }
 
@@ -198,9 +199,25 @@ int main(){
 
         // 5.将path替换
         paths.clear();
+        auto cmp = [](Path l,Path r){return l.get_likelihood()>r.get_likelihood();};
         for(auto& p:group){
             paths.push_back(p.second);
         }
+        sort(paths.begin(),paths.end(),cmp);
+        while(paths.size()>buffer_size){paths.pop_back();}
+
+        // vector<pair<double,Path>> buffer;
+        // for(auto& [_,p]:group){
+        //     buffer.emplace(p.get_likelihood(),p);
+        //     if(buffer.size()>buffer_size){
+        //         buffer.erase(buffer.begin());
+        //     }
+        // }
+        // for(auto& [_,p]:buffer){
+        //     paths.push_back(p);
+        // }
+
+
         // paths.assign(group.begin(),group.end());
     }
 
