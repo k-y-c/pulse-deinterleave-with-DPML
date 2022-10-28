@@ -134,10 +134,10 @@ namespace nanolog
 			uint32_t line = *reinterpret_cast <uint32_t *>(b); b += sizeof(uint32_t);
 			LogLevel loglevel = *reinterpret_cast <LogLevel *>(b); b += sizeof(LogLevel);
 
-			format_timestamp(os, timestamp);
+			// format_timestamp(os, timestamp);
 
-			os << '[' << to_string(loglevel) << ']'
-				<< '[' << function << ':' << line << "] ";
+			// os << '[' << to_string(loglevel) << ']'
+			// 	<< '[' << function << ':' << line << "] ";
 
 			stringify(os, b, end);
 
