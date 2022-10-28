@@ -150,10 +150,12 @@ int main(){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
-                        __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
                     }
                     else{
-                        __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        __ll += max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
                     }
                 }
 
@@ -225,7 +227,7 @@ int main(){
         }
     }
     // LOG_INFO << "Total pulses: " << path.size();
-    LOG_INFO << "algorithm: mldp_a2";
+    LOG_INFO << "algorithm: improved_mldp_a2";
     LOG_INFO << TYPE.c_str() << RATE.c_str();
     LOG_INFO << "Wrong deinterleaved pulses rate: "<< 1.0*cnt_wrong/path.size() ;
     // LOG_INFO << "Likelihood: " << results.get_likelihood();

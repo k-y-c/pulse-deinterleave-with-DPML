@@ -11,10 +11,10 @@ const int K = 2; // 辐射源数目
 const double T_K = 1000000; //超时时间（单位：ns）
 vector<double> toa; // toa数据
 vector<int> label; // 数据标签
-const double beta_ = -10; // 似然因子
-const int buffer_size = K*K*K*100; //路径buffer大小
-const string TYPE = "miss_"; //数据类型
-// const string TYPE = "spurious_";
+double beta_ = -10; // 似然因子
+const int buffer_size = K*K*K*10; //路径buffer大小
+// const string TYPE = "miss_"; //数据类型
+const string TYPE = "spurious_"; //数据类型
 const string RATE = "0.6"; // 率
 const string DATA_PATH = "/home/cky/pulse-deinterleave-with-DPML/data/"+TYPE+RATE+"/";
 const string DATA_FILE_NAME = "toa.txt";
@@ -24,9 +24,9 @@ class Path{
     public:
         // K:辐射源个数，label:初始脉冲标签，ll：似然值(初始值为1)
         Path(int K,int label,double ll = 1):m_likelihood(ll),
-                    m_last_pulse_dist(K,-1),
+                    m_last_pulse_dist(K+1,-1),
                     m_path(1,label),
-                    m_time(K,0){
+                    m_time(K+1,0){
                         m_last_pulse_dist[label] = 1;
                     }
         Path(vector<int>&last_pulse_dist,vector<int>&path,vector<double>&time,double ll):
@@ -84,7 +84,7 @@ void read_data(){
     fs.open(DATA_PATH+LABEL_FILE_NAME);
     while(fs >> s){
         int val = stoi(s);
-        label.push_back(val);
+        label.push_back(val == -1?K:val);
     }
     //剔除漏脉冲数据
 }
@@ -92,8 +92,9 @@ void read_data(){
 //初始化路径
 void init_paths(){
     for(int i = 0;i<K;++i){
-        paths.emplace_back(forward<Path>(Path(K,i,1)));
+        paths.emplace_back(forward<Path>(Path(K,i,0)));
     }
+    paths.emplace_back(forward<Path>(Path(K,K,beta_)));
     return;
 }
 
@@ -125,7 +126,14 @@ double true_path_ll(){
     return ll;
 }
 
-int main(){
+void parse_args(int argc,char* argv[]){
+    if(argc>1){
+        beta_ = atoi(argv[1]);
+    }
+}
+
+int main(int argc,char * argv[]){
+    parse_args(argc,argv);
     nanolog::initialize(nanolog::GuaranteedLogger(), "/home/cky/pulse-deinterleave-with-DPML/log/", "nanolog", 1);
     read_data();
     init_paths();
@@ -138,7 +146,7 @@ int main(){
             auto& rtime = P.get_time(); //分配时长
             auto& ll = P.get_likelihood(); // 累计似然函数
             
-            for(int k = 0;k<K;++k){
+            for(int k = 0;k<=K;++k){
                 auto __dist = dist;
                 auto __path = path;
                 auto __rtime = rtime;
@@ -146,19 +154,24 @@ int main(){
                 __path.push_back(k); // 更新路径
                 // 1.如果该路径曾经分配过脉冲给源k，即可以计算似然函数
                 // 计算杂散脉冲的似然值
-                if(__dist[k]!=-1){
+                if(k == K){
+                    __ll += beta_;
+                }
+                else if(__dist[k]!=-1){
                     double l = toa[i-__dist[k]];
                     double r = toa[i];
                     if(__ll > 0){
                         __ll = likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll = max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2)); 
                     }
                     else{
                         __ll += likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l);
+                        // __ll += max(likelihood(k==0?GAUSSIAN1:GAUSSIAN2,r-l),likelihood(k==0?GAUSSIAN1:GAUSSIAN2,(r-l)/2));
                     }
                 }
 
                 // 2.更新最后脉冲数
-                for(int j = 0;j<K;++j){
+                for(int j = 0;j<K+1;++j){
                     __dist[j] = j==k?1:__dist[j]==-1?-1:__dist[j]+1;
                 }
 
@@ -203,9 +216,19 @@ int main(){
         sort(paths.begin(),paths.end(),cmp);
         while(paths.size()>buffer_size){paths.pop_back();}
 
+        // vector<pair<double,Path>> buffer;
+        // for(auto& [_,p]:group){
+        //     buffer.emplace(p.get_likelihood(),p);
+        //     if(buffer.size()>buffer_size){
+        //         buffer.erase(buffer.begin());
+        //     }
+        // }
         // for(auto& [_,p]:buffer){
         //     paths.push_back(p);
         // }
+
+
+        // paths.assign(group.begin(),group.end());
     }
 
     // 6. 取出似然函数最大的路径
@@ -224,11 +247,9 @@ int main(){
             // LOG_INFO << "wrong pulse idx: " << i << "; True: " << label[i] << "; Recognized: " << path[i];
         }
     }
-    // LOG_INFO << "Total pulses: " << path.size();
-    LOG_INFO << "algorithm: mldp_a2";
-    LOG_INFO << TYPE.c_str() << RATE.c_str();
+    LOG_INFO << "algorithm: mldp_a2_for_spurious";
+    LOG_INFO << TYPE.c_str() << RATE.c_str() << "  beta:" << beta_;
     LOG_INFO << "Wrong deinterleaved pulses rate: "<< 1.0*cnt_wrong/path.size() ;
-    // LOG_INFO << "Likelihood: " << results.get_likelihood();
-    // LOG_INFO << "True path Likelihood: " << true_path_ll();
+    // LOG_INFO << beta_ << " " << 1.0*cnt_wrong/path.size();
     return 0;
 }
