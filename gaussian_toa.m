@@ -4,8 +4,8 @@ format long g;
 MU1 = 45000;
 MU2 = 60000;
 SIGMA = 100;
-MISS_RATE = 0;
-SPURIOUS_RATE = 0.2;
+MISS_RATE = 0.1;
+SPURIOUS_RATE = 0;
  
 T1 = normrnd(MU1,SIGMA,1,5000);
 t1 = struct('toa',T1(1),'label',0);
