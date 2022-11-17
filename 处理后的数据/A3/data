@@ -1,0 +1,46 @@
+jitter  spurious/0
+known_pulse:  278
+choose_known:  249
+unknown_pulse: 722
+choose_unknown: 45
+
+sinusoidal  spurious/0
+known_pulse:  329
+choose_known:  319
+unknown_pulse: 671
+choose_unknown: 11
+
+sliding  spurious/0
+known_pulse:  420
+choose_known:  402
+unknown_pulse: 580
+choose_unknown: 45
+
+stagger  spurious/0
+known_pulse:  319
+choose_known:  301
+unknown_pulse: 681
+choose_unknown: 16
+
+
+## new
+jitter  spurious/0
+known_pulse:  279
+choose_known:  259
+unknown_pulse: 721
+choose_unknown: 24
+sinusoidal  spurious/0
+known_pulse:  329
+choose_known:  319
+unknown_pulse: 671
+choose_unknown: 11
+sliding  spurious/0
+known_pulse:  420
+choose_known:  402
+unknown_pulse: 580
+choose_unknown: 45
+stagger  spurious/0
+known_pulse:  319
+choose_known:  301
+unknown_pulse: 681
+choose_unknown: 16
