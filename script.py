@@ -32,12 +32,23 @@ import os
 #         # rate += 5
 
 #B1
+# rate = 0
+# # type_ = ['jitter','sinusoidal','sliding','stagger']
+# type_ = ['stagger']
+# for t in type_:
+#     rate = 0
+#     for i in range(11):
+#         os.system("build/mldp_A4 "+str(t)+" "+str(rate))
+#         os.system("build/mldp_A4_miss "+str(t)+" "+str(rate))
+#         rate += 5
+
+#LSTM
 rate = 0
-# type_ = ['jitter','sinusoidal','sliding','stagger']
-type_ = ['stagger']
+type_ = ['jitter','sinusoidal','sliding','stagger']
+# type_ = ['stagger']
 for t in type_:
     rate = 0
     for i in range(11):
-        os.system("build/mldp_A4 "+str(t)+" "+str(rate))
-        os.system("build/mldp_A4_miss "+str(t)+" "+str(rate))
+        os.system("python3 lstm.py --TYPE "+str(t)+" --RATE "+str(rate))
+        # os.system("build/mldp_A4_miss "+str(t)+" "+str(rate))
         rate += 5
