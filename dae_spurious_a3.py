@@ -115,7 +115,7 @@ def show_images(decode_images, x_test):
         ax.get_yaxis().set_visible(False)
     plt.show()
 
-MISS_RATE = 0.2
+MISS_RATE = 0
 MODU = 'jitter'
 def load_data():
     '''
@@ -173,7 +173,7 @@ def load_data():
         idx = np.floor(toa/T_UNIT).astype('int64')
         
         test_seq[idx] = 1
-        label_seq[idx] = test_label[i] if test_label[i]>0 else 0
+        label_seq[idx] = test_label[i] if test_label[i] == 2 else 0
     test_seq = test_seq.reshape((-1,ENCODING_DIM_INPUT))
     label_seq = label_seq.reshape((-1,ENCODING_DIM_INPUT))
 
@@ -194,8 +194,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Personal information')
     parser.add_argument('--RATE', dest='RATE', type=int, help='MISS_RATE')
     parser.add_argument('--TYPE', dest='TYPE', type=str, help='TYPE')
-    MISS_RATE = parser.parse_args().RATE/100.0
-    MODU = parser.parse_args().TYPE
+    # MISS_RATE = parser.parse_args().RATE/100.0
+    # MODU = parser.parse_args().TYPE
 
     # Step1： load data  x_train: (n, 1000), x_test: (m, 1000)
     x_train, x_test, y_test  = load_data()
@@ -206,28 +206,31 @@ if __name__ == '__main__':
     # show_images(x_test_noisy, x_test)
 
     # Step5： train
-    encoder1,autoencoder1 = train(x_train_noisy=x_train_noisy[0], x_train=x_train[0])
+    # encoder1,autoencoder1 = train(x_train_noisy=x_train_noisy[0], x_train=x_train[0])
     encoder2,autoencoder2 = train(x_train_noisy=x_train_noisy[1], x_train=x_train[1])
-    encoder3,autoencoder3 = train(x_train_noisy=x_train_noisy[2], x_train=x_train[2])
+    # encoder3,autoencoder3 = train(x_train_noisy=x_train_noisy[2], x_train=x_train[2])
 
     # test and plot
     # encode_images = encoder.predict(x_test_noisy)
     # plot_representation(encode_images, y_test)
 
     # 三个radar的预测
-    prediction1 = autoencoder1.predict(x_test)
+    # prediction1 = autoencoder1.predict(x_test)
     prediction2 = autoencoder2.predict(x_test)
-    prediction3 = autoencoder3.predict(x_test)
+    # prediction3 = autoencoder3.predict(x_test)
     
-    prediction1[x_test==0] = 0
+    # prediction1[x_test==0] = 0
     prediction2[x_test==0] = 0
-    prediction3[x_test==0] = 0
+    # prediction3[x_test==0] = 0
 
-    label = np.zeros_like(prediction1)
-    label[np.logical_and(prediction1>np.maximum(prediction2,prediction3),prediction1>=0.2)] = 1 
-    label[np.logical_and(prediction2>np.maximum(prediction1,prediction3),prediction2>=0.2)] = 2 
-    label[np.logical_and(prediction3>np.maximum(prediction2,prediction1),prediction3>=0.2)] = 3 
+    label = np.zeros_like(prediction2)
+    # label[np.logical_and(prediction1>np.maximum(prediction2,prediction3),prediction1>=0.2)] = 1 
+    label[prediction2>=0.2] = 2 
+    # label[np.logical_and(prediction3>np.maximum(prediction2,prediction1),prediction3>=0.2)] = 3 
     
+    known = np.count_nonzero(y_test)
+    choose_known = np.logical_and(y_test,label)
+    # unknown = 
     wrong = np.count_nonzero(label-y_test)
     acc = 1 - wrong/np.count_nonzero(y_test)
     # decode_toa = np.around(decode_toa)
