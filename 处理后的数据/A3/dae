@@ -1,0 +1,20 @@
+jitter
+knwon: 272.00000
+choose_knwon: 174.00000
+unknown: 708.00000
+choose_unknwon: 370.00000
+sinusoidal
+knwon: 327.00000
+choose_knwon: 237.00000
+unknown: 654.00000
+choose_unknwon: 212.00000
+sliding
+knwon: 416.00000
+choose_knwon: 334.00000
+unknown: 575.00000
+choose_unknwon: 348.00000
+stagger
+knwon: 313.00000
+choose_knwon: 288.00000
+unknown: 671.00000
+choose_unknwon: 467.00000

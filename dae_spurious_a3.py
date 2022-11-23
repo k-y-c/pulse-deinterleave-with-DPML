@@ -31,7 +31,7 @@ BATCH_SIZE = 16
 
 
 T_UNIT = 1   # 二进制编码单元间隔,单位：ns
-P_NOISE = 0.3   #噪声系数
+P_NOISE = 0.5   #噪声系数
 
 def train(x_train_noisy, x_train):
 
@@ -71,7 +71,7 @@ def add_noise(x_train):
     x_train_noisy[:] += x_train[0]+x_train[1]+x_train[2]
     x_train_noisy[x_train_noisy>0] = 1
     # 模拟杂散脉冲和漏脉冲情况
-    x_train_noisy = x_train_noisy + np.random.choice([0,1],size=x_train.shape,p=[1-P_NOISE,P_NOISE])
+    x_train_noisy = x_train + np.random.choice([0,1],size=x_train.shape,p=[1-P_NOISE,P_NOISE])
     # x_test_noisy = x_test + np.random.choice([0,1],size=x_test.shape,p=[1-P_NOISE,P_NOISE])
 
     x_train_noisy = x_train_noisy%2
@@ -116,7 +116,7 @@ def show_images(decode_images, x_test):
     plt.show()
 
 MISS_RATE = 0
-MODU = 'jitter'
+MODU = 'stagger'
 def load_data():
     '''
         加载数据
@@ -129,9 +129,9 @@ def load_data():
     toa_name = 'toa.txt'
     label_name = 'label.txt'
     toa_dir = path +modulation+ toa_name
-    toa_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/origin/toa.txt'
+    # toa_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/origin/toa.txt'
     label_dir = path +modulation+ label_name
-    label_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/origin/label.txt'
+    # label_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/origin/label.txt'
     toa = pd.read_csv(toa_dir,header=None).to_numpy().reshape(-1)
     label = pd.read_csv(label_dir,header=None).to_numpy().reshape(-1)
     toa1 = toa[label==0][:3000]
@@ -161,9 +161,9 @@ def load_data():
     # TOA_seq_test = TOA_seq[train_size:-2]
     
     test_toa_dir = vali +modulation+ rate+toa_name
-    test_toa_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/miss/toa.txt'
+    # test_toa_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/miss/toa.txt'
     test_label_dir = vali +modulation+rate+ label_name
-    test_label_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/miss/label.txt'
+    # test_label_dir = '/home/cky/pulse-deinterleave-with-DPML/testdata/miss/label.txt'
     test_toa = pd.read_csv(test_toa_dir,header=None).to_numpy().reshape(-1)
     test_label = pd.read_csv(test_label_dir,header=None).to_numpy().reshape(-1)+1
     size_max = int(np.ceil((test_toa[-1]+1e-5)/T_UNIT/ENCODING_DIM_INPUT)*ENCODING_DIM_INPUT)
@@ -173,7 +173,7 @@ def load_data():
         idx = np.floor(toa/T_UNIT).astype('int64')
         
         test_seq[idx] = 1
-        label_seq[idx] = test_label[i] if test_label[i] == 2 else 0
+        label_seq[idx] = test_label[i] if test_label[i] == 2 else -1 if test_label[i]>=0 else 0
     test_seq = test_seq.reshape((-1,ENCODING_DIM_INPUT))
     label_seq = label_seq.reshape((-1,ENCODING_DIM_INPUT))
 
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     parser.add_argument('--RATE', dest='RATE', type=int, help='MISS_RATE')
     parser.add_argument('--TYPE', dest='TYPE', type=str, help='TYPE')
     # MISS_RATE = parser.parse_args().RATE/100.0
-    # MODU = parser.parse_args().TYPE
+    MODU = parser.parse_args().TYPE
 
     # Step1： load data  x_train: (n, 1000), x_test: (m, 1000)
     x_train, x_test, y_test  = load_data()
@@ -225,14 +225,18 @@ if __name__ == '__main__':
 
     label = np.zeros_like(prediction2)
     # label[np.logical_and(prediction1>np.maximum(prediction2,prediction3),prediction1>=0.2)] = 1 
-    label[prediction2>=0.2] = 2 
+    th = prediction2.max()/1.2
+    label[prediction2>=th] = 2 
+    label[prediction2<th] = -1
+    label[x_test==0] = 0
     # label[np.logical_and(prediction3>np.maximum(prediction2,prediction1),prediction3>=0.2)] = 3 
     
-    known = np.count_nonzero(y_test)
-    choose_known = np.logical_and(y_test,label)
-    # unknown = 
-    wrong = np.count_nonzero(label-y_test)
-    acc = 1 - wrong/np.count_nonzero(y_test)
+    known = np.sum(y_test==2)
+    choose_known = np.sum(np.logical_and(y_test==2,label==2))
+    unknown = np.sum(y_test==-1)
+    choose_unknown = np.sum(np.logical_and(y_test==-1,label==2))
+    # wrong = np.count_nonzero(label-y_test)
+    # acc = 1 - wrong/np.count_nonzero(y_test)
     # decode_toa = np.around(decode_toa)
 
     
@@ -240,7 +244,8 @@ if __name__ == '__main__':
     # recall,precision = cal_results(x_test,decode_toa)
     # print('recall:{:.2f} ;   precision:{:.2f}'.format(recall,precision))
     f = open('daedata.txt','a')
-    f.writelines(MODU + ' ' + str(int(MISS_RATE*100)) +' '+ 'accuracy: {:.5f}\r\n'.format(acc))
+    f.writelines(MODU+'\r\n')
+    f.writelines('knwon: {:.5f}\r\nchoose_knwon: {:.5f}\r\nunknown: {:.5f}\r\nchoose_unknwon: {:.5f}\r\n'.format(known,choose_known,unknown,choose_unknown))
     f.close()
     # print(MODU + ' ' + str(int(MISS_RATE*100)) +' '+ 'accuracy: {:.5f}'.format(acc))
     # show_images(decode_toa, x_test_noisy)
