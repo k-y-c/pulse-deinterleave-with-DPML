@@ -1,0 +1,111 @@
+{
+    "n_radar": 3,
+    "t_k": 1000,
+    "beta": 10,
+    "deal_miss": false,
+    "type": "miss",
+    "modulation": "jitter",
+    "rate": "45",
+    "data_file": "toa.txt",
+    "label_file": "label.txt",
+    "params": [
+        {
+            "modulation":"jitter",
+            "mu": 31,
+            "sigma": 1
+        },
+        {
+            "modulation":"sliding",
+            "alpha": 16,
+            "sigma": 1,
+            "period": 6
+        }
+    ]
+    // "params": {
+    //     "jitter": [
+    //         {
+    //             "mu": 31,
+    //             "sigma": 1
+    //         },
+    //         {
+    //             "mu": 31,
+    //             "sigma": 1
+    //         },
+    //         {
+    //             "mu": 31,
+    //             "sigma": 1
+    //         }
+    //     ],
+    //     "sliding": [
+    //         {
+    //             "alpha": 16,
+    //             "sigma": 1,
+    //             "period": 6
+    //         },
+    //         {
+    //             "alpha": 16,
+    //             "sigma": 1,
+    //             "period": 6
+    //         },
+    //         {
+    //             "alpha": 16,
+    //             "sigma": 1,
+    //             "period": 6
+    //         }
+    //     ],
+    //     "stagger": [
+    //         [
+    //             {
+    //                 "mu": 43,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 34,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 67,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 56,
+    //                 "sigma": 0.5
+    //             }
+    //         ],
+    //         [
+    //             {
+    //                 "mu": 43,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 34,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 67,
+    //                 "sigma": 0.5
+    //             },
+    //             {
+    //                 "mu": 56,
+    //                 "sigma": 0.5
+    //             }
+    //         ]
+    //     ],
+    //     "sinu": [
+    //         {
+    //             "amplitude": 3,
+    //             "frequency": 0.02,
+    //             "bias": 40,
+    //             "sigma": 0.5,
+    //             "fai": 0
+    //         },
+    //         {
+    //             "amplitude": 3,
+    //             "frequency": 0.02,
+    //             "bias": 40,
+    //             "sigma": 0.5,
+    //             "fai": 0
+    //         }
+    //     ]
+    // }
+}

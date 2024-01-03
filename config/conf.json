@@ -1,0 +1,24 @@
+{
+    "n_radar": 3,
+    "t_k": 1000,
+    "beta": 10,
+    "deal_miss": false,
+    "type": "miss",
+    "modulation": "jitter",
+    "rate": "45",
+    "data_file": "toa.txt",
+    "label_file": "label.txt",
+    "params": [
+        {
+            "modulation":"jitter",
+            "mu": 31,
+            "sigma": 1
+        },
+        {
+            "modulation":"sliding",
+            "alpha": 16,
+            "sigma": 1,
+            "period": 6
+        }
+    ]
+}
