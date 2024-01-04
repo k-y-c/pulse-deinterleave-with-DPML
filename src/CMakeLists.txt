@@ -11,5 +11,8 @@
 #     target_link_libraries(${target_name} pthread)
 # endforeach()
 
-add_executable(main mldp_A4.cpp dpml.cpp global.cpp util.cpp)
+# add_executable(main mldp_A4.cpp dpml.cpp global.cpp util.cpp)
+# target_link_libraries(main pthread)
+
+add_executable(main main.cpp dpml.cpp conf.cpp data.cpp path.cpp)
 target_link_libraries(main pthread)

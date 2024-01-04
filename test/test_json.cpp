@@ -1,6 +1,7 @@
 #include "configor/json.hpp"
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 
 using namespace configor;
@@ -11,5 +12,8 @@ int main(){
     ifstream ifs(file);
     ifs >> json::wrap(j);
     cout << j["glossary"]["title"].get<string>();
+    
+    shared_ptr<json::object> dpml_conf;
+    
     return 0;
 }
