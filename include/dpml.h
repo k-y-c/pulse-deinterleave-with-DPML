@@ -1,7 +1,8 @@
 #ifndef DPML
 #define DPML
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
 #include "conf.h"
 #include "data.h"
 #include "path.h"

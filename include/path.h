@@ -40,7 +40,7 @@ class Path{
         void updateLikelihood(int label,double pt);
     
         void setFirstPulse(int pulse_idx,int label,int toa);
-        double correction();
+        json::value metrics();
     private:
         inline static json::value s_params;
         inline static bool m_deal_miss = false;

@@ -228,7 +228,7 @@ void Path::updateLikelihood(int label,double pt)
     }
 }
 
-double Path::correction()
+json::value Path::metrics()
 {
     int cnt_wrong = 0;
     int cnt_all = m_path.size();
@@ -236,15 +236,20 @@ double Path::correction()
         if(m_path[i]!=m_true_path[i]){
             cnt_wrong += 1;
         }
-    } 
-    return 1.0*cnt_wrong/cnt_all;
+    }
+    double err_rate = 1.0*cnt_wrong/cnt_all;
+    double accuracy = 1 - err_rate;
+    return json::object{
+        {"error_rate",err_rate},
+        {"accuracy",accuracy}
+    };
 }
 
 void Path::dumpResult(string file)
 {
     json::value j = json::object{
         {"likelihood",m_likelihood},
-        {"err",correction()},
+        {"metrics",metrics()},
         {"output_label",m_path},
         {"true_label",m_true_path},
     };

@@ -50,12 +50,13 @@ void DpmlAlgrithm::start()
     }
     auto opt_path = mPaths[0];
     opt_path.dumpResult(mDpmlConf->GetResultDIr());
+    LOG_INFO << "Caculate done.Result:" << mDpmlConf->GetResultDIr().c_str();
 }
 
 void DpmlAlgrithm::InitAll()
 {
     nanolog::initialize(nanolog::GuaranteedLogger(), "../log/", "nanolog", 1);
-    LOG_INFO << "LogServer Init Done.";
+    LOG_INFO << "DPML Config File:" << mConfigFile.c_str();
     InitDpmlConf(mConfigFile);
     InitRadarData();
     Path::SetGroundTruth(mData->labels());
