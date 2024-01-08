@@ -1,24 +1,23 @@
 {
-    "n_radar": 3,
-    "t_k": 1000,
-    "beta": 10,
+    "n_radar": 2,
+    "buffer_size":100,
+    "beta": -10.0,
     "deal_miss": false,
-    "type": "miss",
-    "modulation": "jitter",
-    "rate": "45",
-    "data_file": "toa.txt",
-    "label_file": "label.txt",
+    "deal_spurious":false,
+    "data_file": "../data/platform/toa.txt",
+    "label_file": "../data/platform/label.txt",
+    "result_dir": "../log/result.json",
     "params": [
         {
-            "modulation":"jitter",
-            "mu": 31,
-            "sigma": 1
+            "modulation": "jitter",
+            "mu": 100.0,
+            "sigma": 1.0
         },
         {
-            "modulation":"sliding",
-            "alpha": 16,
-            "sigma": 1,
-            "period": 6
+            "modulation": "sliding",
+            "alpha": 10.0,
+            "sigma": 1.0,
+            "period": 10
         }
     ]
 }
