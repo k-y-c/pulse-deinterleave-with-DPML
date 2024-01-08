@@ -134,10 +134,10 @@ namespace nanolog
 			uint32_t line = *reinterpret_cast <uint32_t *>(b); b += sizeof(uint32_t);
 			LogLevel loglevel = *reinterpret_cast <LogLevel *>(b); b += sizeof(LogLevel);
 
-			// format_timestamp(os, timestamp);
+			format_timestamp(os, timestamp);
 
-			// os << '[' << to_string(loglevel) << ']'
-			// 	<< '[' << function << ':' << line << "] ";
+			os << '[' << to_string(loglevel) << ']'
+				<< '[' << function << ':' << line << "] ";
 
 			stringify(os, b, end);
 
@@ -695,12 +695,16 @@ namespace nanolog
 	//	void initialize(NonGuaranteedLogger ngl, std::string const & log_directory, std::string const & log_file_name, uint32_t log_file_roll_size_mb);
 	inline void initialize(NonGuaranteedLogger ngl, std::string const & log_directory, std::string const & log_file_name, uint32_t log_file_roll_size_mb)
 	{
+		const std::string cmd = "mkdir -p " + log_directory;
+		system(cmd.c_str());
 		nanologger.reset(new NanoLogger(ngl, log_directory, log_file_name, log_file_roll_size_mb));
 		atomic_nanologger.store(nanologger.get(), std::memory_order_seq_cst);
 	}
 
 	inline void initialize(GuaranteedLogger gl, std::string const & log_directory, std::string const & log_file_name, uint32_t log_file_roll_size_mb)
 	{
+		const std::string cmd = "mkdir -p " + log_directory;
+		system(cmd.c_str());
 		nanologger.reset(new NanoLogger(gl, log_directory, log_file_name, log_file_roll_size_mb));
 		atomic_nanologger.store(nanologger.get(), std::memory_order_seq_cst);
 	}

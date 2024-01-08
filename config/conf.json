@@ -1,0 +1,23 @@
+{
+    "n_radar": 2,
+    "buffer_size":100,
+    "beta": -10.0,
+    "deal_miss": false,
+    "deal_spurious":false,
+    "data_file": "../data/platform/toa.txt",
+    "label_file": "../data/platform/label.txt",
+    "result_dir": "../log/result.json",
+    "params": [
+        {
+            "modulation": "jitter",
+            "mu": 100.0,
+            "sigma": 1.0
+        },
+        {
+            "modulation": "sliding",
+            "alpha": 10.0,
+            "sigma": 1.0,
+            "period": 10
+        }
+    ]
+}
