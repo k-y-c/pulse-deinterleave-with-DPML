@@ -1,0 +1,47 @@
+{
+    "n_radar": 4,
+    "buffer_size":100,
+    "beta": 10,
+    "deal_miss": false,
+    "deal_spurious":false,
+    "data_file": "../data/miss/jitter/0/toa.txt",
+    "label_file": "../data/miss/jitter/0/label.txt",
+    "result_dir": "../log/result.json",
+    "params": [
+        {
+            "modulation": "jitter",
+            "mu": 31.0,
+            "sigma": 1.0
+        },
+        {
+            "modulation": "sliding",
+            "alpha": 16.0,
+            "sigma": 1.0,
+            "period": 6
+        },
+        {
+            "modulation": "stagger",
+            "num":4,
+            "mu": [
+                43.0,
+                34.0,
+                67.0,
+                56.0
+            ],
+            "sigma": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        {
+            "modulation": "sinusoidal",
+            "amplitude": 3.0,
+            "frequency": 0.02,
+            "bias": 40.0,
+            "sigma": 0.5,
+            "fai": 0.0
+        }
+    ]
+}

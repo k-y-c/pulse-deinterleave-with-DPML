@@ -15,34 +15,25 @@ public:
 
     void start();
 
+    void SetConf(const string& conf_file);
+
     void InitAll();
 
 private:
-    void InitRadarData()
-    {
-        mData = make_shared<RadarData>(mDpmlConf);
-    }
+    void InitRadarData();
 
-    void InitDpmlConf(string conf_file)
-    {
-        mDpmlConf = make_shared<DpmlConf>(conf_file);
-        Path::SetRadarParams(mDpmlConf->GetRadarParams());
-    }
+    void InitDpmlConf(const string& conf_file);
 
-    void InitPath()
-    {
-        for(int i = 0;i<n_radar;++i){
-            auto path = make_shared<Path>(n_radar,i,0,mData->toa()[0]);
-            mPaths.push_back(path);
-        }
-        return;
-    }
+    void InitPath();
+
 private:
+    string mConfigFile;
     DpmlConfPtr mDpmlConf;
     RadarDataPtr mData;
 
     int n_radar;
-    vector<PathPtr> mPaths;
+    int buffer_size;
+    vector<Path> mPaths;
 };
 
 

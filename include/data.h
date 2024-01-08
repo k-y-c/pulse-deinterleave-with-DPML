@@ -11,15 +11,17 @@ class RadarData
 public:
     RadarData(DpmlConfPtr conf);
     
-    vector<double>& toa(){return mToa;}
-    vector<int>& label(){return mLabel;}
-
+    double toa(int i){return mToa[i];}
+    int label(int i){return mLabel[i];}
+    const vector<int>& labels() const{return mLabel;}
+    int size(){return mDataSize;}
     void InitData();
     
 private:
     DpmlConfPtr mDpmlConf;
     vector<double> mToa;
     vector<int> mLabel;
+    int mDataSize;
 };
 
 using RadarDataPtr = shared_ptr<RadarData>;

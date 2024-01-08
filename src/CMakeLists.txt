@@ -14,5 +14,13 @@
 # add_executable(main mldp_A4.cpp dpml.cpp global.cpp util.cpp)
 # target_link_libraries(main pthread)
 
-add_executable(main main.cpp dpml.cpp conf.cpp data.cpp path.cpp)
+add_executable(main main.cpp dpml.cpp conf.cpp data.cpp path.cpp util.cpp)
 target_link_libraries(main pthread)
+
+add_custom_command(
+    TARGET main
+    COMMAND rm ${PROJECT_BINARY_DIR}/config && ln -s ${PROJECT_SOURCE_DIR}/config ${PROJECT_BINARY_DIR}/config
+    COMMAND rm ${PROJECT_BINARY_DIR}/data && ln -s ${PROJECT_SOURCE_DIR}/data ${PROJECT_BINARY_DIR}/data
+    COMMENT "Creating symbolic link to config directory in build directory"
+)
+

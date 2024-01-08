@@ -1,4 +1,5 @@
 #include "data.h"
+#include "nanolog.hpp"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -27,4 +28,6 @@ void RadarData::InitData()
         int val = stoi(s);
         mLabel.push_back(val);
     }
+    mDataSize = mToa.size();
+    LOG_INFO << "RadarData init done, data size: " << mDataSize;
 }
